@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uri ng Pangngalan: Pantangi at Pambalana - Misyong Pangwika</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts: Nunito & Fredoka for Bright Pastel Cartoon Style -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pastelMint: '#A8E6CF',
+                        pastelYellow: '#DCEDC1',
+                        pastelPeach: '#FFD3B6',
+                        pastelPink: '#FF8B94',
+                        pastelBlue: '#E0F7FA',
+                        pastelPurple: '#E1BEE7',
+                        pastelTeal: '#4DB6AC',
+                        pastelCoral: '#FFAB91',
+                        darkSlate: '#2C3E50',
+                    },
+                    fontFamily: {
+                        fredoka: ['Fredoka', 'cursive'],
+                        nunito: ['Nunito', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'cartoon': '0px 6px 0px 0px rgba(0,0,0,0.15)',
+                        'cartoon-lg': '0px 8px 0px 0px rgba(0,0,0,0.18)',
+                        'cartoon-btn': '0px 5px 0px 0px rgba(0,0,0,0.2)',
+                        'cartoon-active': '0px 2px 0px 0px rgba(0,0,0,0.2)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #e0f7fa 0%, #fff9c4 40%, #ffe0b2 70%, #f8bbd0 100%);
+            min-height: 100vh;
+            user-select: none;
+        }
+
+        .heading-font {
+            font-family: 'Fredoka', cursive;
+        }
+
+        /* Aspect ratio container forcing 16:9 layout while responsive */
+        .game-wrapper {
+            width: 100%;
+            max-width: 1040px;
+            aspect-ratio: 16 / 9;
+            box-shadow: 0 20px 40px -10px rgba(44, 62, 80, 0.25);
+        }
+
+        @media (max-width: 880px) {
+            .game-wrapper {
+                aspect-ratio: auto;
+                min-height: 92vh;
+            }
+        }
+
+        @keyframes subtleBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        .animate-bounce-slow {
+            animation: subtleBounce 2.5s infinite ease-in-out;
+        }
+
+        @keyframes musicWave {
+            0%, 100% { height: 4px; }
+            50% { height: 16px; }
+        }
+        .bar-1 { animation: musicWave 0.7s infinite ease-in-out 0.1s; }
+        .bar-2 { animation: musicWave 0.7s infinite ease-in-out 0.3s; }
+        .bar-3 { animation: musicWave 0.7s infinite ease-in-out 0.2s; }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #A8E6CF;
+            border-radius: 10px;
+        }
+
+        /* Certificate Print rules */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #certificate-print-area, #certificate-print-area * {
+                visibility: visible;
+            }
+            #certificate-print-area {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 24px;
+                background: white !important;
+                box-shadow: none !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-2 sm:p-4 text-darkSlate">
+
+    <div class="game-wrapper bg-white rounded-3xl border-4 sm:border-8 border-white flex flex-col justify-between overflow-hidden relative transition-all duration-300">
+        
+        <!-- Header Bar -->
+        <header id="game-header" class="bg-gradient-to-r from-pastelMint via-pastelBlue to-pastelPurple px-4 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between shadow-md z-10 border-b-4 border-white">
+            <div class="flex items-center gap-2 sm:gap-3">
+                <div class="w-9 h-9 sm:w-11 sm:h-11 bg-white rounded-2xl flex items-center justify-center shadow-cartoon text-teal-600 text-lg sm:text-2xl">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <h1 class="heading-font text-sm sm:text-lg font-bold text-slate-800 leading-tight">Misyong Pangwika: Baitang 6</h1>
+                    <p id="header-subtitle" class="text-xs text-slate-600 font-semibold hidden sm:block">Pantangi at Pambalana + Tik-Tak-To Mini-Game</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Tic-Tac-Toe Stats Badge -->
+                <div id="ttt-badge" class="hidden flex items-center bg-purple-100 border-2 border-purple-300 px-3 py-1 rounded-full text-xs font-bold text-purple-900 shadow-sm">
+                    <i class="fa-solid fa-gamepad text-purple-600 mr-1.5"></i>
+                    <span>❌ <span id="ttt-user-wins">0</span> - ⭕ <span id="ttt-ai-wins">0</span></span>
+                </div>
+
+                <!-- Score Pill -->
+                <div id="score-pill" class="hidden flex items-center bg-white/90 backdrop-blur border-2 border-amber-300 px-3 py-1 rounded-full shadow-sm">
+                    <i class="fa-solid fa-star text-amber-400 text-sm sm:text-base mr-1.5"></i>
+                    <span class="text-xs sm:text-sm font-extrabold text-slate-800">Puntos: <span id="current-score" class="text-emerald-600">0</span>/100</span>
+                </div>
+
+                <!-- Level Badge -->
+                <div id="level-badge" class="hidden bg-emerald-500 text-white font-bold text-xs sm:text-sm px-3 py-1 rounded-full shadow-cartoon">
+                    <span id="level-num">1</span>/10
+                </div>
+
+                <!-- Sound BGM Toggle Button -->
+                <button id="bgm-toggle-btn" onclick="toggleBGM()" class="bg-white/80 hover:bg-white text-slate-700 p-2 sm:px-3 sm:py-1.5 rounded-full border-2 border-slate-200 shadow-sm flex items-center gap-2 transition-all active:translate-y-0.5" title="Tugtog Switch">
+                    <i id="bgm-icon" class="fa-solid fa-volume-xmark text-red-400 text-sm sm:text-base"></i>
+                    <span class="text-xs font-bold hidden md:inline" id="bgm-text">Tugtog: Off</span>
+                    <div id="bgm-bars" class="hidden flex items-end gap-0.5 h-4">
+                        <span class="w-1 bg-emerald-500 rounded-full bar-1"></span>
+                        <span class="w-1 bg-teal-500 rounded-full bar-2"></span>
+                        <span class="w-1 bg-cyan-500 rounded-full bar-3"></span>
+                    </div>
+                </button>
+            </div>
+        </header>
+
+        <section id="welcome-screen" class="flex-1 bg-gradient-to-br from-amber-50 via-teal-50 to-pink-50 p-4 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 overflow-y-auto relative">
+            
+            <!-- Mascot Graphic -->
+            <div class="w-full md:w-1/2 flex flex-col items-center justify-center text-center space-y-3">
+                <div class="relative animate-bounce-slow">
+                    <svg class="w-32 h-32 sm:w-44 sm:h-44 drop-shadow-md" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <ellipse cx="100" cy="115" rx="65" ry="70" fill="#A8E6CF"/>
+                        <ellipse cx="100" cy="120" rx="45" ry="50" fill="#FFFDE7"/>
+                        <path d="M85 110 Q100 120 115 110" stroke="#81C784" stroke-width="4" stroke-linecap="round"/>
+                        <path d="M88 125 Q100 135 112 125" stroke="#81C784" stroke-width="4" stroke-linecap="round"/>
+                        <circle cx="75" cy="85" r="24" fill="white" stroke="#2C3E50" stroke-width="4"/>
+                        <circle cx="125" cy="85" r="24" fill="white" stroke="#2C3E50" stroke-width="4"/>
+                        <circle cx="78" cy="85" r="11" fill="#2C3E50"/>
+                        <circle cx="122" cy="85" r="11" fill="#2C3E50"/>
+                        <circle cx="81" cy="82" r="4" fill="white"/>
+                        <circle cx="125" cy="82" r="4" fill="white"/>
+                        <path d="M51 85 H99 M101 85 H149 M99 85 Q100 80 101 85" stroke="#FF8B94" stroke-width="5" stroke-linecap="round"/>
+                        <polygon points="93,98 107,98 100,112" fill="#FFB74D" stroke="#2C3E50" stroke-width="2"/>
+                        <polygon points="100,30 155,50 100,70 45,50" fill="#3F51B5"/>
+                        <rect x="75" y="32" width="50" height="18" fill="#303F9F" rx="3"/>
+                        <path d="M145 53 L145 75 L150 82" stroke="#FFD54F" stroke-width="4" stroke-linecap="round"/>
+                    </svg>
+                    <span class="absolute -top-2 -right-2 bg-amber-300 text-slate-800 heading-font font-bold text-xs px-3 py-1 rounded-full shadow-cartoon border-2 border-white">
+                        Guro Bibo 🦉
+                    </span>
+                </div>
+                
+                <div>
+                    <span class="inline-block bg-teal-100 text-teal-800 font-extrabold text-xs tracking-wider px-3 py-1 rounded-full border border-teal-300 mb-1">
+                        BAITANG 6 • BALARILANG FILIPINO
+                    </span>
+                    <h2 class="heading-font text-xl sm:text-3xl font-extrabold text-slate-800 leading-tight">
+                        Uri ng Pangngalan Ayon sa Katangian
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-600 mt-1 font-semibold max-w-sm">
+                        Sagutan ang 10 masusing tanong tungkol sa <span class="text-emerald-700 font-bold">Pantangi</span> at <span class="text-pink-600 font-bold">Pambalana</span>. Sa bawat tamang sagot, makikipaglaro ka ng Tik-Tak-To laban sa AI!
+                    </p>
+                </div>
+            </div>
+
+            <!-- Name Form Card -->
+            <div class="w-full md:w-1/2 bg-white/90 backdrop-blur rounded-2xl p-5 sm:p-6 shadow-xl border-4 border-pastelMint flex flex-col justify-center space-y-4">
+                <div class="border-b-2 border-dashed border-slate-200 pb-3">
+                    <h3 class="heading-font text-lg sm:text-xl font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-id-card text-emerald-500"></i> Maligayang Pagdating, Mag-aaral!
+                    </h3>
+                    <p class="text-xs text-slate-500 mt-0.5">Isulat ang iyong pangalan upang simulan ang misyon.</p>
+                </div>
+
+                <div class="space-y-2">
+                    <label for="player-name-input" class="text-xs font-bold uppercase tracking-wider text-slate-700 block">
+                        Pangalan ng Mag-aaral:
+                    </label>
+                    <div class="relative">
+                        <i class="fa-solid fa-user absolute left-4 top-3.5 text-slate-400"></i>
+                        <input type="text" id="player-name-input" placeholder="Isulat ang iyong pangalan..." 
+                            class="w-full pl-11 pr-4 py-3 bg-slate-50 border-2 border-slate-300 rounded-xl font-bold text-slate-800 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 transition-all text-sm sm:text-base"
+                            maxlength="30" autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="bg-amber-50 p-3 rounded-xl border border-amber-200 text-xs text-amber-800 flex items-start gap-2">
+                    <i class="fa-solid fa-star text-amber-500 text-sm mt-0.5"></i>
+                    <span>May <strong>2 pagkakataon (retry)</strong> ka kapag nagkamali. Pagkatapos ng lahat ng tanong, magawaran ka ng opisyal na <strong>Katibayan ng Pagtatapos</strong>!</span>
+                </div>
+
+                <button onclick="startGame()" class="w-full py-3.5 bg-gradient-to-r from-emerald-400 to-teal-500 hover:from-emerald-500 hover:to-teal-600 text-white heading-font text-base sm:text-lg font-bold rounded-xl shadow-cartoon border-2 border-emerald-600 hover:shadow-cartoon-active active:translate-y-1 transition-all flex items-center justify-center gap-2 group">
+                    <span>SIMULAN ANG MISYON</span>
+                    <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </button>
+            </div>
+        </section>
+
+        <main id="game-screen" class="hidden flex-1 bg-gradient-to-b from-teal-50/40 via-white to-purple-50/30 p-4 sm:p-6 flex flex-col justify-between overflow-y-auto relative">
+            
+            <!-- Progress Line & Badges -->
+            <div class="w-full space-y-1.5 mb-2">
+                <div class="flex items-center justify-between text-xs font-bold text-slate-600 px-1">
+                    <span id="part-title-badge" class="bg-pastelPurple text-purple-900 px-3 py-1 rounded-lg text-xs font-bold">
+                        Bahagi 1: Pagpipili-pili (Multiple Choice)
+                    </span>
+                    <div class="flex items-center gap-2">
+                        <span id="attempt-indicator" class="hidden bg-amber-100 text-amber-800 border border-amber-300 px-2.5 py-0.5 rounded-full text-[11px] font-extrabold animate-pulse">
+                            ⚠️ Huling Pagkakataon (2nd Chance)
+                        </span>
+                        <span id="level-difficulty" class="text-emerald-700 font-extrabold">Antas: Masusing Pagsusuri</span>
+                    </div>
+                </div>
+                <div class="w-full h-3.5 bg-slate-200 rounded-full overflow-hidden p-0.5 border border-slate-300">
+                    <div id="progress-bar" class="h-full bg-gradient-to-r from-pastelMint via-emerald-400 to-teal-500 rounded-full transition-all duration-500" style="width: 10%;"></div>
+                </div>
+            </div>
+
+            <!-- Full Width Question & Options Container (Clean, Large Layout) -->
+            <div class="flex-1 flex flex-col justify-center space-y-4 my-auto max-w-4xl mx-auto w-full">
+                
+                <!-- Question Box -->
+                <div class="bg-white p-4 sm:p-6 rounded-2xl border-4 border-pastelMint shadow-sm relative">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-2 mb-2">
+                        <span class="bg-emerald-500 text-white text-xs font-extrabold px-3 py-1 rounded-md uppercase tracking-wider">
+                            Tanong <span id="q-number">1</span>
+                        </span>
+                        <span id="question-tag" class="text-xs font-extrabold uppercase tracking-wider text-teal-800 bg-teal-50 border border-teal-200 px-3 py-1 rounded-full">
+                            Pagsusuri ng Konteksto
+                        </span>
+                    </div>
+                    
+                    <p id="question-text" class="heading-font text-base sm:text-xl font-bold text-slate-800 leading-relaxed">
+                        Naglo-load ng katanungan...
+                    </p>
+                </div>
+
+                <!-- Dynamic Options Grid (Full Width 2x2 or 1x4 Responsive Layout) -->
+                <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <!-- Dynamic Options Generated Here -->
+                </div>
+
+            </div>
+
+            <!-- Footer Hint -->
+            <footer class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                <span class="flex items-center gap-1">
+                    <i class="fa-solid fa-lightbulb text-amber-400"></i>
+                    <strong>Paalala:</strong> Suriing mabuti ang malalaking titik, opisyal na pamagat, at konteksto sa pangungusap.
+                </span>
+                <span class="font-bold text-slate-400 hidden sm:inline">Piliin ang pinakawastong sagot!</span>
+            </footer>
+        </main>
+
+        <div id="feedback-modal" class="hidden absolute inset-0 bg-slate-900/60 backdrop-blur-sm z-30 flex items-center justify-center p-4 transition-all duration-300">
+            <div class="bg-white w-full max-w-lg rounded-3xl p-5 sm:p-6 shadow-2xl border-4 border-pink-400 relative overflow-hidden text-center space-y-4 animate-in fade-in zoom-in-95 duration-200">
+                
+                <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-full flex items-center justify-center text-3xl sm:text-4xl shadow-inner border-4 border-white bg-pink-100 text-pink-500">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+
+                <div>
+                    <h3 class="heading-font text-2xl sm:text-3xl font-extrabold text-pink-500">
+                        Nalampasan ang 2 Pagkakataon!
+                    </h3>
+                    <p class="text-xs sm:text-sm font-bold text-slate-500 mt-0.5">
+                        Basahing mabuti ang tamang paliwanag upang matuto.
+                    </p>
+                </div>
+
+                <div class="bg-slate-50 p-4 rounded-2xl border-2 border-slate-200 text-left space-y-1.5">
+                    <span class="text-xs font-extrabold uppercase tracking-wider text-slate-400 block">
+                        <i class="fa-solid fa-book-open text-emerald-500 mr-1"></i> Paliwanag ng Guro:
+                    </span>
+                    <p id="feedback-explanation" class="text-xs sm:text-sm font-semibold text-slate-700 leading-relaxed">
+                        Paliwanag...
+                    </p>
+                </div>
+
+                <button onclick="closeFeedbackAndNext()" class="w-full py-3 bg-slate-800 hover:bg-slate-900 text-white heading-font text-base font-bold rounded-xl shadow-cartoon border-2 border-slate-900 active:translate-y-1 transition-all flex items-center justify-center gap-2">
+                    <span>Ipagpatuloy sa Susunod na Tanong</span>
+                    <i class="fa-solid fa-circle-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="ttt-modal" class="hidden absolute inset-0 bg-slate-900/70 backdrop-blur-md z-40 flex items-center justify-center p-3 sm:p-4">
+            <div class="bg-gradient-to-br from-white via-purple-50 to-pink-50 w-full max-w-lg rounded-3xl p-4 sm:p-6 shadow-2xl border-4 border-pastelPurple text-center space-y-3 relative my-auto">
+                
+                <div class="flex items-center justify-between border-b border-purple-200 pb-2">
+                    <div class="flex items-center gap-2">
+                        <span class="bg-emerald-500 text-white text-xs font-bold px-2.5 py-0.5 rounded-full">
+                            ✨ Tamang Sagot!
+                        </span>
+                        <h3 class="heading-font text-base sm:text-xl font-bold text-purple-900">
+                            Bonus: Tik-Tak-To vs AI
+                        </h3>
+                    </div>
+                    <span class="text-xs font-bold text-slate-500">Ika-<span id="ttt-round-num">1</span> na Laro</span>
+                </div>
+
+                <p id="ttt-status-text" class="text-xs sm:text-sm font-extrabold text-purple-800 bg-purple-100/80 py-1.5 px-3 rounded-xl border border-purple-200">
+                    🎯 Turn mo na! I-click ang alinmang bakanteng kahon (❌)
+                </p>
+
+                <!-- Tik-Tak-To 3x3 Grid -->
+                <div class="grid grid-cols-3 gap-2 sm:gap-3 w-56 h-56 sm:w-64 sm:h-64 mx-auto my-2">
+                    <button onclick="handleTTTClick(0)" id="ttt-cell-0" class="ttt-cell bg-white hover:bg-purple-100 border-3 border-purple-300 rounded-2xl text-2xl sm:text-3xl font-black heading-font flex items-center justify-center shadow-sm active:scale-95 transition-all text-slate-700"></button>
+                    <button onclick="handleTTTClick(1)" id="ttt-cell-1" class="ttt-cell bg-white hover:bg-purple-100 border-3 border-purple-300 rounded-2xl text-2xl sm:text-3xl font-black heading-font flex items-center justify-center shadow-sm active:scale-95 transition-all text-slate-700"></button>
+                    <button onclick="handleTTTClick(2)" id="ttt-cell-2" class="ttt-cell bg-white hover:bg-purple-100 border-3 border-purple-300 rounded-2xl text-2xl sm:text-3xl font-black heading-font flex items-center justify-center shadow-sm active:scale-95 transition-all text-slate-700"></button>
+                    <button onclick="handleTTTClick(3)" id="ttt-cell-3" class="ttt-cell bg-white hover:bg-purple-100 border-3 border-purple-300 rounded-2xl text-2xl sm:text-3xl font-black heading-font flex items-center justify-center shadow-sm active:scale-95 transition-all text-slate-700"></button>
+                    <button onclick="handleTTTClick(4)" id="ttt-cell-4" class="ttt-cell bg-white hover:bg-purple-100 border-3 border-purple-300 rounded-2xl text-2xl sm:text-3xl font-black heading-font flex items-center justify-center shadow-sm active:scale-95 transition-all text-slate-700"></button>
+                    <button onclick="handleTTTClick(5)" id="ttt-cell-5" class="ttt-cell bg-white hover:bg-purple-100 border-3 border-purple-300 rounded-2xl text-2xl sm:text-3xl font-black heading-font flex items-center justify-center shadow-sm active:scale-95 transition-all text-slate-700"></button>
+                    <button onclick="handleTTTClick(6)" id="ttt-cell-6" class="ttt-cell bg-white hover:bg-purple-100 border-3 border-purple-300 rounded-2xl text-2xl sm:text-3xl font-black heading-font flex items-center justify-center shadow-sm active:scale-95 transition-all text-slate-700"></button>
+                    <button onclick="handleTTTClick(7)" id="ttt-cell-7" class="ttt-cell bg-white hover:bg-purple-100 border-3 border-purple-300 rounded-2xl text-2xl sm:text-3xl font-black heading-font flex items-center justify-center shadow-sm active:scale-95 transition-all text-slate-700"></button>
+                    <button onclick="handleTTTClick(8)" id="ttt-cell-8" class="ttt-cell bg-white hover:bg-purple-100 border-3 border-purple-300 rounded-2xl text-2xl sm:text-3xl font-black heading-font flex items-center justify-center shadow-sm active:scale-95 transition-all text-slate-700"></button>
+                </div>
+
+                <!-- TTT Score Tracker -->
+                <div class="flex items-center justify-center gap-4 text-xs font-bold text-slate-700 py-1 bg-white/80 rounded-xl border border-purple-100">
+                    <span class="text-emerald-700">❌ Ikaw: <span id="modal-ttt-user">0</span></span>
+                    <span class="text-pink-600">⭕ AI: <span id="modal-ttt-ai">0</span></span>
+                    <span class="text-slate-500">🤝 Tabla: <span id="modal-ttt-draws">0</span></span>
+                </div>
+
+                <!-- Action Button -->
+                <button id="ttt-continue-btn" onclick="finishTTTAndNext()" class="w-full py-3 bg-gradient-to-r from-emerald-400 to-teal-500 hover:from-emerald-500 hover:to-teal-600 text-white heading-font text-sm sm:text-base font-bold rounded-xl shadow-cartoon border-2 border-emerald-600 active:translate-y-0.5 transition-all flex items-center justify-center gap-2">
+                    <span>Magpatuloy sa Susunod na Tanong</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <section id="certificate-screen" class="hidden flex-1 bg-gradient-to-br from-amber-50 via-emerald-50 to-teal-100 p-3 sm:p-6 flex flex-col items-center justify-center overflow-y-auto relative">
+            <canvas id="confetti-canvas" class="absolute inset-0 pointer-events-none z-20"></canvas>
+
+            <div id="certificate-print-area" class="w-full max-w-2xl bg-white border-8 border-double border-emerald-600 rounded-3xl p-5 sm:p-7 shadow-2xl relative text-center flex flex-col justify-between space-y-3 my-auto">
+                
+                <div class="absolute top-3 left-3 text-emerald-500 text-xl"><i class="fa-solid fa-award"></i></div>
+                <div class="absolute top-3 right-3 text-emerald-500 text-xl"><i class="fa-solid fa-award"></i></div>
+                <div class="absolute bottom-3 left-3 text-emerald-500 text-xl"><i class="fa-solid fa-award"></i></div>
+                <div class="absolute bottom-3 right-3 text-emerald-500 text-xl"><i class="fa-solid fa-award"></i></div>
+
+                <div class="space-y-1">
+                    <p class="text-[10px] sm:text-xs font-extrabold uppercase tracking-widest text-emerald-700">
+                        REPUBLIKA NG PILIPINAS • KAGAWARAN NG EDUKASYON
+                    </p>
+                    <h2 class="heading-font text-2xl sm:text-3xl font-black text-amber-600 tracking-wide uppercase border-b-2 border-amber-200 pb-1 inline-block">
+                        Katibayan ng Pagtatapos
+                    </h2>
+                    <p class="text-xs text-slate-500 italic mt-0.5">
+                        Ang Katibayang ito ay malugod na iginagawad kay:
+                    </p>
+                </div>
+
+                <div class="py-1">
+                    <h1 id="cert-student-name" class="heading-font text-2xl sm:text-4xl font-extrabold text-slate-800 underline decoration-emerald-400 decoration-4 underline-offset-8">
+                        JUAN DELA CRUZ
+                    </h1>
+                    <p id="cert-title-award" class="text-xs sm:text-sm font-bold text-emerald-700 mt-2">
+                        🌟 Dalubhasa sa Balarilang Filipino 🌟
+                    </p>
+                </div>
+
+                <p class="text-xs sm:text-sm text-slate-600 max-w-lg mx-auto leading-relaxed">
+                    Dahil sa matagumpay na pagkumpleto sa lahat ng 10 Misyong Pangwika sa <strong>Uri ng Pangngalan Ayon sa Katangian (Pantangi at Pambalana)</strong> at pakikipaglaro sa Tik-Tak-To mini-game:
+                </p>
+
+                <!-- Scores & Stats Grid -->
+                <div class="flex items-center justify-center gap-3 my-1">
+                    <div class="bg-amber-100 border-2 border-amber-400 px-3 py-1.5 rounded-2xl shadow-sm text-center">
+                        <span class="text-[10px] text-amber-800 font-bold block uppercase">PUNTOS SA PAGSUSULIT</span>
+                        <span id="cert-final-score" class="heading-font text-lg sm:text-xl font-black text-amber-600">
+                            100 / 100
+                        </span>
+                    </div>
+
+                    <div class="bg-purple-100 border-2 border-purple-300 px-3 py-1.5 rounded-2xl shadow-sm text-center">
+                        <span class="text-[10px] text-purple-900 font-bold block uppercase">RESULTA SA TIK-TAK-TO</span>
+                        <span id="cert-ttt-record" class="heading-font text-sm sm:text-base font-black text-purple-700">
+                            Panalo: 0 | AI: 0
+                        </span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 pt-3 border-t border-slate-200 text-center text-[11px] sm:text-xs">
+                    <div>
+                        <p id="cert-date" class="font-bold text-slate-700">Petsa: Oktubre 3, 2026</p>
+                        <p class="text-slate-400">Petsa ng Pagkumpleto</p>
+                    </div>
+                    <div>
+                        <p class="heading-font font-bold text-slate-800 text-sm">Guro Bibo 🦉</p>
+                        <p class="text-slate-400">Punong Tagasuri sa Balarila</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="no-print mt-4 flex flex-wrap items-center justify-center gap-3 z-30">
+                <button onclick="printCertificate()" class="px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white heading-font text-sm font-bold rounded-xl shadow-cartoon border-2 border-emerald-700 active:translate-y-0.5 transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-print"></i>
+                    <span>I-print / I-save ang Sertipiko</span>
+                </button>
+
+                <button onclick="restartGame()" class="px-5 py-2.5 bg-amber-400 hover:bg-amber-500 text-slate-900 heading-font text-sm font-bold rounded-xl shadow-cartoon border-2 border-amber-600 active:translate-y-0.5 transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>Laruin Ulit</span>
+                </button>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        let playerName = "";
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let attemptsLeft = 2; // 2 attempts per question
+        let isBgmPlaying = false;
+        let audioCtx = null;
+        let bgmTimer = null;
+
+        // Tik-Tak-To State
+        let tttBoard = Array(9).fill(null); // 'X' for user, 'O' for AI
+        let tttUserWins = 0;
+        let tttAiWins = 0;
+        let tttDraws = 0;
+        let tttRoundCount = 1;
+        let isTTTActive = false;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function playBGMTune() {
+            if (!isBgmPlaying || !audioCtx) return;
+
+            const notes = [261.63, 329.63, 392.00, 523.25, 440.00, 349.23, 392.00, 293.66];
+            let step = 0;
+
+            if (bgmTimer) clearInterval(bgmTimer);
+
+            bgmTimer = setInterval(() => {
+                if (!isBgmPlaying) return;
+                try {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(notes[step % notes.length], audioCtx.currentTime);
+                    gain.gain.setValueAtTime(0.025, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
+
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.38);
+
+                    step++;
+                } catch (e) {
+                    console.log("Audio error", e);
+                }
+            }, 420);
+        }
+
+        function toggleBGM() {
+            initAudio();
+            isBgmPlaying = !isBgmPlaying;
+
+            const icon = document.getElementById('bgm-icon');
+            const text = document.getElementById('bgm-text');
+            const bars = document.getElementById('bgm-bars');
+
+            if (isBgmPlaying) {
+                icon.className = "fa-solid fa-volume-high text-emerald-500 text-sm sm:text-base";
+                text.innerText = "Tugtog: On";
+                bars.classList.remove('hidden');
+                playBGMTune();
+            } else {
+                icon.className = "fa-solid fa-volume-xmark text-red-400 text-sm sm:text-base";
+                text.innerText = "Tugtog: Off";
+                bars.classList.add('hidden');
+                if (bgmTimer) clearInterval(bgmTimer);
+            }
+        }
+
+        function playSFX(type) {
+            initAudio();
+            if (!audioCtx) return;
+
+            try {
+                const now = audioCtx.currentTime;
+
+                if (type === 'click') {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(580, now);
+                    gain.gain.setValueAtTime(0.05, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.08);
+                } else if (type === 'correct') {
+                    const freqs = [523.25, 659.25, 783.99, 1046.50];
+                    freqs.forEach((freq, idx) => {
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(freq, now + idx * 0.07);
+                        gain.gain.setValueAtTime(0.08, now + idx * 0.07);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.07 + 0.25);
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.start(now + idx * 0.07);
+                        osc.stop(now + idx * 0.07 + 0.25);
+                    });
+                } else if (type === 'wrong') {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, now);
+                    osc.frequency.exponentialRampToValueAtTime(130, now + 0.3);
+                    gain.gain.setValueAtTime(0.06, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.3);
+                } else if (type === 'fanfare') {
+                    const victoryNotes = [523.25, 659.25, 783.99, 1046.50, 880.00, 1046.50];
+                    victoryNotes.forEach((freq, i) => {
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(freq, now + i * 0.12);
+                        gain.gain.setValueAtTime(0.1, now + i * 0.12);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.12 + 0.4);
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.start(now + i * 0.12);
+                        osc.stop(now + i * 0.12 + 0.4);
+                    });
+                }
+            } catch (e) {
+                console.log("SFX error", e);
+            }
+        }
+
+        const questions = [
+            {
+                id: 1,
+                part: "Bahagi 1: Pagpipili-pili",
+                difficulty: "Masusing Pagsusuri",
+                tag: "Wastong Pagmamalaking-Titik",
+                question: "Alin sa mga sumusunod na pangungusap ang may TAMA at WASTONG paggamit ng pangngalang pantangi at pambalana ayon sa tuntunin ng balarila?",
+                options: [
+                    { label: "A", text: "Nagluto ang aming Ina na si Gng. Reyes ng masarap na Adobo.", correct: false },
+                    { label: "B", text: "Nagluto ang aming ina na si gng. reyes ng masarap na adobo.", correct: false },
+                    { label: "C", text: "Nagluto ang aming ina na si Gng. Reyes ng masarap na adobo.", correct: true },
+                    { label: "D", text: "Nagluto ang aming Ina na si Gng. reyes ng masarap na adobo.", correct: false }
+                ],
+                explanation: "Ang 'ina' at 'adobo' ay mga pangngalang pambalana (pangkalahatan) kaya dapat isulat sa maliit na titik. Ang 'Gng. Reyes' ay tiyak na ngalan ng tao (pantangi) kaya ito lamang ang nagsisimula sa malaking titik."
+            },
+            {
+                id: 2,
+                part: "Bahagi 1: Pagpipili-pili",
+                difficulty: "Masusing Pagsusuri",
+                tag: "Opisyal na Pamagat vs Tungkulin",
+                question: "Sa pangungusap na: 'Nais ni Mateo na maging pangulo ng kanilang samahan katulad ng katangi-tanging pamumuno ni Pangulong Quezon sa ating bansa.', ano ang wastong klasipikasyon ng 'pangulo' at 'Pangulong Quezon'?",
+                options: [
+                    { label: "A", text: "Parehong Pangngalang Pantangi dahil tumutukoy sa mataas na posisyon.", correct: false },
+                    { label: "B", text: "Ang 'pangulo' ay Pambalana dahil pangkalahatang tungkulin, habang ang 'Pangulong Quezon' ay Pantangi dahil tiyak na katawagan at pangalan ng tao.", correct: true },
+                    { label: "C", text: "Ang 'pangulo' ay Pantangi sapagkat pormal na pamagat, habang ang 'Pangulong Quezon' ay Pambalana.", correct: false },
+                    { label: "D", text: "Parehong Pangngalang Pambalana sapagkat pareho silang tumutukoy sa uri ng pinuno.", correct: false }
+                ],
+                explanation: "Ang 'pangulo' kapag ginamit nang pangkalahatan ay pambalana. Subalit kapag ikinabit ito sa tiyak na pangalan ng tao bilang opisyal na pamagat ('Pangulong Quezon'), nagiging bahagi ito ng pangngalang pantangi."
+            },
+            {
+                id: 3,
+                part: "Bahagi 1: Pagpipili-pili",
+                difficulty: "Mataas na Antas",
+                tag: "Eksklusibong Pangkat",
+                question: "Aling pangkat ng mga salita ang binubuo nang EKSKLUSIBO (Lahat) ng mga Pangngalang Pantangi?",
+                options: [
+                    { label: "A", text: "Bagong Taon, Pilipino, Agila, Bundok Banahaw", correct: false },
+                    { label: "B", text: "Monte Maria, Wikang Filipino, Himagsikang 1896, Lungsod ng Quezon", correct: true },
+                    { label: "C", text: "Pangulong Marcos, Kawanihan, Pasko, Tsino", correct: false },
+                    { label: "D", text: "San Miguel, Doktor, Buwan ng Wika, Rehiyon IV-A", correct: false }
+                ],
+                explanation: "Sa pangkat B, lahat ng salita ay tiyak na ngalan ng lugar, wika, makasaysayang kaganapan, at pamahalaang lokal. Sa ibang opsyon, ang 'agila', 'kawanihan', at 'doktor' ay mga pambalana."
+            },
+            {
+                id: 4,
+                part: "Bahagi 1: Pagpipili-pili",
+                difficulty: "Mataas na Antas",
+                tag: "Pagsusuri ng Konteksto",
+                question: "Suriin ang dalawang parirala: 'Paskong Pinoy' at 'tatlong pasko na ang nakalipas'. Bakit magkaiba ang uri ng salitang 'pasko' sa dalawang kontekstong ito?",
+                options: [
+                    { label: "A", text: "Pantangi ang una dahil tumutukoy sa tiyak na kapistahan; Pambalana ang ikalawa dahil ginamit ito sa pangkalahatang kahulugan ng taon.", correct: true },
+                    { label: "B", text: "Pareho silang Pantangi ngunit nagkamali lamang sa pagmamaliit ng titik sa ikalawang parirala.", correct: false },
+                    { label: "C", text: "Pambalana ang una dahil marami ang nagdiriwang nito; Pantangi ang ikalawa dahil nakalipas na panahon.", correct: false },
+                    { label: "D", text: "Pantangi ang una dahil may katabing salita; Pambalana ang ikalawa dahil nasa gitna ng pangungusap.", correct: false }
+                ],
+                explanation: "Sa unang parirala, ang 'Pasko' ay tiyak na ngalan ng okasyon (Pantangi). Sa ikalawa, ang 'pasko' ay ginamit sa pangkalahatang kahulugan ng 'taon' (Pambalana)."
+            },
+            {
+                id: 5,
+                part: "Bahagi 1: Pagpipili-pili",
+                difficulty: "Subok-Galing",
+                tag: "Anyong Lansakan vs Pantangi",
+                question: "Alin sa mga sumusunod ang halimbawa ng pangngalang Pambalana na ginamit sa anyong lansakan (collective) ngunit nananatiling di-tiyak ang kategorya?",
+                options: [
+                    { label: "A", text: "Sanggunian ng Kabataan ng Barangay San Jose", correct: false },
+                    { label: "B", text: "Lupon ng mga Hukom", correct: true },
+                    { label: "C", text: "Samahang Kataas-taasang Kagalang-galangang Katipunan", correct: false },
+                    { label: "D", text: "Pamahalaang Lungsod ng Makati", correct: false }
+                ],
+                explanation: "Ang 'Lupon ng mga Hukom' ay pambalana (lansakan) sapagkat tumutukoy ito sa di-tiyak na grupo ng mga hukom. Ang ibang opsyon ay tiyak at pormal na opisyal na ngalan ng samahan o pamahalaan (Pantangi)."
+            },
+            {
+                id: 6,
+                part: "Bahagi 2: Pagtukoy at Pagsusuri",
+                difficulty: "Pagsusuri sa Pangungusap",
+                tag: "Tiyak na Anyong Lupa",
+                question: "Sa pangungusap na: 'Nagtungo ang pamilya Santos sa Bulkang Mayon upang masaksihan ang angking kagandahan nito.' Ano ang uri ng 'Bulkang Mayon'?",
+                options: [
+                    { label: "A", text: "Pangngalang Pambalana sapagkat ang 'bulkan' ay isang uri ng anyong lupa.", correct: false },
+                    { label: "B", text: "Pangngalang Pantangi sapagkat ito ay tiyak na ngalan ng isang partikular na bulkan sa Albay.", correct: true },
+                    { label: "C", text: "Pangngalang Pambalana sapagkat tambalang salita ito na tumutukoy sa kalikasan.", correct: false },
+                    { label: "D", text: "Pangngalang Pantangi subalit ang salitang 'Bulkan' lamang ang dapat na pantangi.", correct: false }
+                ],
+                explanation: "Ang 'Bulkang Mayon' ay pangngalang pantangi dahil itinuturo nito ang isang tiyak at partikular na anyong lupa sa Albay."
+            },
+            {
+                id: 7,
+                part: "Bahagi 2: Pagtukoy at Pagsusuri",
+                difficulty: "Pagsusuri sa Pangungusap",
+                tag: "Tatak o Brand vs Gamit",
+                question: "Suriin ang pangungusap: 'Bumili si Aling Nena ng dalawang botelyang Mongol na lapis at tatlong kuwaderno sa bookstore.' Ano ang klasipikasyon ng salitang 'Mongol'?",
+                options: [
+                    { label: "A", text: "Pambalana, dahil ito ay gamit sa pag-aaral tulad ng lapis.", correct: false },
+                    { label: "B", text: "Pantangi, dahil ito ay tiyak na tatak o brand ng lapis.", correct: true },
+                    { label: "C", text: "Pambalana, dahil nakasulat ito bago ang salitang 'lapis'.", correct: false },
+                    { label: "D", text: "Pantangi, dahil ito ay uri ng pambansang wika sa Timog Asya.", correct: false }
+                ],
+                explanation: "Ang 'Mongol' ay pantangi sapagkat ito ang tiyak na brand o tatak ng lapis. Ang lapis at kuwaderno naman ay pambalana."
+            },
+            {
+                id: 8,
+                part: "Bahagi 2: Pagtukoy at Pagsusuri",
+                difficulty: "Pagtatambal ng Uri",
+                tag: "Batas at Sektor",
+                question: "Sa pangungusap: 'Ipinagtanggol ng mga manggagawa ang kanilang karapatan alinsunod sa probisyon ng Saligang Batas ng 1987.' Alin ang tamang pagtatambal sa uri ng 'manggagawa' at 'Saligang Batas ng 1987'?",
+                options: [
+                    { label: "A", text: "manggagawa = Pantangi ; Saligang Batas ng 1987 = Pambalana", correct: false },
+                    { label: "B", text: "manggagawa = Pambalana ; Saligang Batas ng 1987 = Pantangi", correct: true },
+                    { label: "C", text: "manggagawa = Pambalana ; Saligang Batas ng 1987 = Pambalana", correct: false },
+                    { label: "D", text: "manggagawa = Pantangi ; Saligang Batas ng 1987 = Pantangi", correct: false }
+                ],
+                explanation: "Ang 'manggagawa' ay pambalana (di-tiyak na sektor/tao) samantalang ang 'Saligang Batas ng 1987' ay pantangi (tiyak na ngalan ng Konstitusyon)."
+            },
+            {
+                id: 9,
+                part: "Bahagi 2: Pagtukoy at Pagsusuri",
+                difficulty: "Pagtukoy ng Mali",
+                tag: "Pagsusuri ng Maling Titik",
+                question: "Tukuyin kung aling pangungusap ang may MALI sa paggamit ng malaki at maliit na titik batay sa alituntunin ng pangngalang pantangi at pambalana:",
+                options: [
+                    { label: "A", text: "Binisita ng mga Mag-aaral ang Pambansang Museo ng Pilipinas noong nakaraang Biyernes.", correct: true },
+                    { label: "B", text: "Ang wikang Filipino ay ating pambansang wika na dapat linangin at pahalagahan.", correct: false },
+                    { label: "C", text: "Si Dr. Jose Rizal ang ating pambansang bayani na isinilang sa Calamba, Laguna.", correct: false },
+                    { label: "D", text: "Naghanda ng masarap na pansit si Aling Maria para sa kaarawan ng kaniyang anak.", correct: false }
+                ],
+                explanation: "Sa pangungusap A, ang salitang 'mag-aaral' ay pambalana kaya MALI na isulat ito nang may malaking titik ('Mag-aaral') sa gitna ng pangungusap."
+            },
+            {
+                id: 10,
+                part: "Bahagi 2: Boss Level Challenge",
+                difficulty: "Misyong Huling Pagsubok",
+                tag: "Pagbibilang at Pag-uuri",
+                question: "Misyong Huling Pagsubok: Suriin ang talata: 'Nagtungo ang mga nars at doktor sa Hospital de San Juan de Dios upang tulungan ang mga biktima ng bagyong Kristine.' Ilang Pangngalang Pantangi at ilang Pangngalang Pambalana ang matatagpuan sa mga salitang nakatala (nars, doktor, Hospital de San Juan de Dios, bagyong Kristine)?",
+                options: [
+                    { label: "A", text: "1 Pantangi at 3 Pambalana", correct: false },
+                    { label: "B", text: "2 Pantangi at 2 Pambalana", correct: true },
+                    { label: "C", text: "3 Pantangi at 1 Pambalana", correct: false },
+                    { label: "D", text: "4 na Pantangi", correct: false }
+                ],
+                explanation: "Mayroong 2 Pantangi ('Hospital de San Juan de Dios' at 'bagyong Kristine') at 2 Pambalana ('nars' at 'doktor')."
+            }
+        ];
+
+        function startGame() {
+            initAudio();
+            playSFX('click');
+
+            const nameInput = document.getElementById('player-name-input').value.trim();
+            if (!nameInput) {
+                alert("Mangyaring isulat ang iyong pangalan upang makapagsimula sa misyon!");
+                return;
+            }
+
+            playerName = nameInput;
+            currentQuestionIndex = 0;
+            score = 0;
+            
+            // Reset TTT Stats
+            tttUserWins = 0;
+            tttAiWins = 0;
+            tttDraws = 0;
+            tttRoundCount = 1;
+            resetTTTBoard();
+
+            document.getElementById('welcome-screen').classList.add('hidden');
+            document.getElementById('game-screen').classList.remove('hidden');
+            document.getElementById('score-pill').classList.remove('hidden');
+            document.getElementById('level-badge').classList.remove('hidden');
+            document.getElementById('ttt-badge').classList.remove('hidden');
+            
+            updateScoreUI();
+            loadQuestion();
+        }
+
+        function updateScoreUI() {
+            document.getElementById('current-score').innerText = score;
+            document.getElementById('level-num').innerText = currentQuestionIndex + 1;
+            
+            const progressPercent = ((currentQuestionIndex + 1) / questions.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+
+            document.getElementById('ttt-user-wins').innerText = tttUserWins;
+            document.getElementById('ttt-ai-wins').innerText = tttAiWins;
+            document.getElementById('modal-ttt-user').innerText = tttUserWins;
+            document.getElementById('modal-ttt-ai').innerText = tttAiWins;
+            document.getElementById('modal-ttt-draws').innerText = tttDraws;
+        }
+
+        function loadQuestion() {
+            attemptsLeft = 2; // Reset attempts to 2 for each question
+            document.getElementById('attempt-indicator').classList.add('hidden');
+
+            const q = questions[currentQuestionIndex];
+
+            document.getElementById('part-title-badge').innerText = q.part;
+            document.getElementById('level-difficulty').innerText = `Antas: ${q.difficulty}`;
+            document.getElementById('q-number').innerText = q.id;
+            document.getElementById('question-tag').innerText = q.tag;
+            document.getElementById('question-text').innerHTML = q.question;
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.id = `opt-btn-${idx}`;
+                btn.className = "w-full text-left p-4 bg-white hover:bg-emerald-50 active:bg-emerald-100 border-2 border-slate-200 hover:border-emerald-400 rounded-2xl font-bold text-slate-800 text-xs sm:text-sm shadow-sm hover:shadow-cartoon transition-all flex items-start gap-3 group";
+                btn.onclick = () => handleAnswerAttempt(opt, idx);
+                btn.innerHTML = `
+                    <span class="w-7 h-7 bg-slate-100 group-hover:bg-emerald-500 group-hover:text-white text-slate-700 font-extrabold rounded-xl flex items-center justify-center border border-slate-300 flex-shrink-0 text-xs transition-colors">
+                        ${opt.label}
+                    </span>
+                    <span class="leading-relaxed my-auto">${opt.text}</span>
+                `;
+                optionsContainer.appendChild(btn);
+            });
+
+            updateScoreUI();
+        }
+
+        function handleAnswerAttempt(selectedOpt, optIdx) {
+            playSFX('click');
+            const btn = document.getElementById(`opt-btn-${optIdx}`);
+
+            if (selectedOpt.correct) {
+                // Correct Answer!
+                playSFX('correct');
+                score += (attemptsLeft === 2) ? 10 : 5; // 10 points on 1st try, 5 points on 2nd try
+                updateScoreUI();
+
+                // Open Tic-Tak-To Mini-Game Modal
+                openTTTModal();
+            } else {
+                // Wrong Answer!
+                playSFX('wrong');
+                attemptsLeft--;
+
+                if (attemptsLeft === 1) {
+                    // Show 2nd Chance Retry State
+                    btn.disabled = true;
+                    btn.className = "w-full text-left p-4 bg-red-50 border-2 border-red-300 rounded-2xl font-bold text-red-400 text-xs sm:text-sm shadow-none opacity-60 cursor-not-allowed flex items-start gap-3";
+                    
+                    document.getElementById('attempt-indicator').classList.remove('hidden');
+                } else {
+                    // No attempts left, show explanation modal
+                    showIncorrectFeedbackModal();
+                }
+            }
+        }
+
+        function showIncorrectFeedbackModal() {
+            const q = questions[currentQuestionIndex];
+            document.getElementById('feedback-explanation').innerText = q.explanation;
+            document.getElementById('feedback-modal').classList.remove('hidden');
+        }
+
+        function closeFeedbackAndNext() {
+            playSFX('click');
+            document.getElementById('feedback-modal').classList.add('hidden');
+            nextQuestion();
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showCertificate();
+            }
+        }
+
+        function openTTTModal() {
+            isTTTActive = true;
+            document.getElementById('ttt-modal').classList.remove('hidden');
+            document.getElementById('ttt-round-num').innerText = currentQuestionIndex + 1;
+            document.getElementById('ttt-status-text').innerText = "🎯 Turn mo na! I-click ang alinmang bakanteng kahon (❌)";
+            document.getElementById('ttt-status-text').className = "text-xs sm:text-sm font-extrabold text-purple-800 bg-purple-100/80 py-1.5 px-3 rounded-xl border border-purple-200";
+            
+            renderTTTBoard();
+        }
+
+        function resetTTTBoard() {
+            tttBoard = Array(9).fill(null);
+        }
+
+        function renderTTTBoard() {
+            for (let i = 0; i < 9; i++) {
+                const cellBtn = document.getElementById(`ttt-cell-${i}`);
+                cellBtn.innerText = tttBoard[i] ? tttBoard[i] : "";
+                if (tttBoard[i] === '❌') {
+                    cellBtn.className = "ttt-cell bg-emerald-100 border-3 border-emerald-400 rounded-2xl text-2xl sm:text-3xl font-black heading-font flex items-center justify-center text-emerald-600 shadow-inner";
+                } else if (tttBoard[i] === '⭕') {
+                    cellBtn.className = "ttt-cell bg-pink-100 border-3 border-pink-400 rounded-2xl text-2xl sm:text-3xl font-black heading-font flex items-center justify-center text-pink-600 shadow-inner";
+                } else {
+                    cellBtn.className = "ttt-cell bg-white hover:bg-purple-100 border-3 border-purple-300 rounded-2xl text-2xl sm:text-3xl font-black heading-font flex items-center justify-center shadow-sm active:scale-95 transition-all text-slate-700";
+                }
+            }
+        }
+
+        function handleTTTClick(index) {
+            if (!isTTTActive || tttBoard[index] !== null) return;
+
+            playSFX('click');
+            tttBoard[index] = '❌';
+            renderTTTBoard();
+
+            let winner = checkTTTWinner(tttBoard);
+            if (winner) {
+                handleTTTEnd(winner);
+                return;
+            }
+
+            if (tttBoard.every(cell => cell !== null)) {
+                handleTTTEnd('draw');
+                return;
+            }
+
+            // AI Move
+            document.getElementById('ttt-status-text').innerText = "🤔 Nag-iisip ang AI (⭕)...";
+            isTTTActive = false;
+
+            setTimeout(() => {
+                makeAIMove();
+                renderTTTBoard();
+
+                winner = checkTTTWinner(tttBoard);
+                if (winner) {
+                    handleTTTEnd(winner);
+                } else if (tttBoard.every(cell => cell !== null)) {
+                    handleTTTEnd('draw');
+                } else {
+                    isTTTActive = true;
+                    document.getElementById('ttt-status-text').innerText = "🎯 Turn mo na muli! I-click ang kahon (❌)";
+                }
+            }, 450);
+        }
+
+        function makeAIMove() {
+            // Smart AI Move Strategy
+            // 1. Can AI Win now?
+            for (let i = 0; i < 9; i++) {
+                if (!tttBoard[i]) {
+                    tttBoard[i] = '⭕';
+                    if (checkTTTWinner(tttBoard) === '⭕') return;
+                    tttBoard[i] = null;
+                }
+            }
+            // 2. Can User Win next? Block User!
+            for (let i = 0; i < 9; i++) {
+                if (!tttBoard[i]) {
+                    tttBoard[i] = '❌';
+                    if (checkTTTWinner(tttBoard) === '❌') {
+                        tttBoard[i] = '⭕';
+                        return;
+                    }
+                    tttBoard[i] = null;
+                }
+            }
+            // 3. Take Center if available
+            if (!tttBoard[4]) {
+                tttBoard[4] = '⭕';
+                return;
+            }
+            // 4. Random available spot
+            const emptyIndices = tttBoard.map((val, idx) => val === null ? idx : null).filter(val => val !== null);
+            if (emptyIndices.length > 0) {
+                const randomChoice = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+                tttBoard[randomChoice] = '⭕';
+            }
+        }
+
+        function checkTTTWinner(board) {
+            const winLines = [
+                [0,1,2], [3,4,5], [6,7,8], // Rows
+                [0,3,6], [1,4,7], [2,5,8], // Cols
+                [0,4,8], [2,4,6]          // Diagonals
+            ];
+
+            for (let line of winLines) {
+                const [a, b, c] = line;
+                if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+                    return board[a];
+                }
+            }
+            return null;
+        }
+
+        function handleTTTEnd(result) {
+            isTTTActive = false;
+            const statusText = document.getElementById('ttt-status-text');
+
+            if (result === '❌') {
+                playSFX('fanfare');
+                tttUserWins++;
+                statusText.innerText = "🎉 PANALO KA SA TIK-TAK-TO! (+1 Panalo)";
+                statusText.className = "text-xs sm:text-sm font-extrabold text-emerald-800 bg-emerald-100 py-1.5 px-3 rounded-xl border border-emerald-300";
+            } else if (result === '⭕') {
+                playSFX('wrong');
+                tttAiWins++;
+                statusText.innerText = "🤖 PANALO ANG AI SA LARONG ITO!";
+                statusText.className = "text-xs sm:text-sm font-extrabold text-pink-800 bg-pink-100 py-1.5 px-3 rounded-xl border border-pink-300";
+            } else {
+                playSFX('click');
+                tttDraws++;
+                statusText.innerText = "🤝 MAGANGAWPANG TABLA!";
+                statusText.className = "text-xs sm:text-sm font-extrabold text-slate-800 bg-slate-100 py-1.5 px-3 rounded-xl border border-slate-300";
+            }
+
+            updateScoreUI();
+        }
+
+        function finishTTTAndNext() {
+            playSFX('click');
+            document.getElementById('ttt-modal').classList.add('hidden');
+            resetTTTBoard();
+            nextQuestion();
+        }
+
+        function showCertificate() {
+            playSFX('fanfare');
+
+            document.getElementById('game-screen').classList.add('hidden');
+            document.getElementById('score-pill').classList.add('hidden');
+            document.getElementById('level-badge').classList.add('hidden');
+            document.getElementById('ttt-badge').classList.add('hidden');
+            document.getElementById('certificate-screen').classList.remove('hidden');
+
+            document.getElementById('cert-student-name').innerText = playerName.toUpperCase();
+            document.getElementById('cert-final-score').innerText = `${score} / 100`;
+            document.getElementById('cert-ttt-record').innerText = `Panalo: ${tttUserWins} | AI: ${tttAiWins}`;
+
+            const titleAward = document.getElementById('cert-title-award');
+            if (score >= 90) {
+                titleAward.innerText = "🌟 Dakilang Lakan/Lakambini ng Wika (Napakahusay!) 🌟";
+            } else if (score >= 70) {
+                titleAward.innerText = "⭐ Magiting na Bayani ng Balarila (Mahusay!) ⭐";
+            } else {
+                titleAward.innerText = "📖 Masipag na Mag-aaral ng Wika 📖";
+            }
+
+            const today = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const tagalogDate = today.toLocaleDateString('tl-PH', options);
+            document.getElementById('cert-date').innerText = `Petsa: ${tagalogDate}`;
+
+            launchConfetti();
+        }
+
+        function launchConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+
+            const particles = [];
+            const colors = ['#A8E6CF', '#DCEDC1', '#FFD3B6', '#FF8B94', '#FFD54F', '#4DB6AC', '#E1BEE7'];
+
+            for (let i = 0; i < 90; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    size: Math.random() * 8 + 4,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    speedY: Math.random() * 3 + 2,
+                    speedX: Math.random() * 2 - 1,
+                    rotation: Math.random() * 360
+                });
+            }
+
+            function render() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.y += p.speedY;
+                    p.x += p.speedX;
+                    p.rotation += 2;
+
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate((p.rotation * Math.PI) / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                    ctx.restore();
+
+                    if (p.y > canvas.height) {
+                        p.y = -10;
+                        p.x = Math.random() * canvas.width;
+                    }
+                });
+
+                if (!document.getElementById('certificate-screen').classList.contains('hidden')) {
+                    requestAnimationFrame(render);
+                }
+            }
+
+            render();
+        }
+
+        function printCertificate() {
+            playSFX('click');
+            window.print();
+        }
+
+        function restartGame() {
+            playSFX('click');
+            document.getElementById('certificate-screen').classList.add('hidden');
+            document.getElementById('welcome-screen').classList.remove('hidden');
+            document.getElementById('player-name-input').value = playerName;
+        }
+    </script>
+</body>
+</html>
